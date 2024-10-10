@@ -1,1 +1,69 @@
-# Mawadah-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacked Alert</title>
+    <style>
+        body {
+            background-color: black;
+            color: green;
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+            padding: 20px;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .message {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        #binaryCodes {
+            font-size: 24px;
+            white-space: pre; /* Preserves whitespace for formatting */
+            height: 80%; /* Adjust height to fit the screen */
+            overflow: auto; /* Allows scrolling if the content overflows */
+            width: 100%; /* Full width */
+        }
+    </style>
+</head>
+<body>
+    <div class="message">Device hacked!!!</div>
+    <div id="binaryCodes"></div>
+
+    <script>
+        function generateBinaryCodes(lines, charsPerLine) {
+            let codes = '';
+            for (let i = 0; i < lines; i++) {
+                let line = '';
+                for (let j = 0; j < charsPerLine; j++) {
+                    line += Math.random() < 0.5 ? '0' : '1';
+                }
+                codes += line + '\n'; // Add a newline after each line of binary codes
+            }
+            return codes;
+        }
+
+        function typeBinaryCodes(codes, index) {
+            if (index < codes.length) {
+                document.getElementById('binaryCodes').textContent += codes[index];
+                setTimeout(() => typeBinaryCodes(codes, index + 1), 30); // Adjust the delay for typing speed
+            }
+        }
+
+        function startTyping() {
+            const lines = 100; // Number of lines
+            const charsPerLine = 20; // Characters per line
+            const binaryCodes = generateBinaryCodes(lines, charsPerLine); // Generate the binary codes
+            document.getElementById('binaryCodes').textContent = ''; // Clear previous content
+            typeBinaryCodes(binaryCodes, 0); // Start typing from the first character
+        }
+
+        startTyping(); // Initiate typing when the page loads
+    </script>
+</body>
+</html>
