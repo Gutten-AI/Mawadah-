@@ -3,67 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hacked Alert</title>
+    <title>Device Hacked!!!</title>
     <style>
         body {
             background-color: black;
-            color: green;
-            font-family: 'Courier New', Courier, monospace;
-            text-align: center;
-            padding: 20px;
+            color: darkgreen;
+            font-family: monospace;
+            white-space: nowrap;
             overflow: hidden;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
         }
-        .message {
-            font-size: 36px;
-            margin-bottom: 20px;
-        }
-        #binaryCodes {
+        #binaryOutput {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            transform: translateY(-50%);
             font-size: 24px;
-            white-space: pre; /* Preserves whitespace for formatting */
-            height: 80%; /* Adjust height to fit the screen */
-            overflow: auto; /* Allows scrolling if the content overflows */
-            width: 100%; /* Full width */
+        }
+        #message {
+            text-align: center;
+            font-size: 36px;
+            margin-top: 20px;
+            color: red;
         }
     </style>
 </head>
 <body>
-    <div class="message">Device hacked!!!</div>
-    <div id="binaryCodes"></div>
+    <div id="message">Device Hacked!!!</div>
+    <div id="binaryOutput"></div>
 
     <script>
-        function generateBinaryCodes(lines, charsPerLine) {
-            let codes = '';
-            for (let i = 0; i < lines; i++) {
-                let line = '';
-                for (let j = 0; j < charsPerLine; j++) {
-                    line += Math.random() < 0.5 ? '0' : '1';
-                }
-                codes += line + '\n'; // Add a newline after each line of binary codes
+        const binaryOutput = document.getElementById('binaryOutput');
+        const totalBinaryLines = 50;
+        let lineCount = 0;
+
+        function generateBinaryLine() {
+            let binaryLine = '';
+            for (let i = 0; i < 20; i++) { // 20 characters per line
+                binaryLine += Math.random() < 0.5 ? '0' : '1';
             }
-            return codes;
+            return binaryLine;
         }
 
-        function typeBinaryCodes(codes, index) {
-            if (index < codes.length) {
-                document.getElementById('binaryCodes').textContent += codes[index];
-                setTimeout(() => typeBinaryCodes(codes, index + 1), 30); // Adjust the delay for typing speed
+        function typeBinary() {
+            if (lineCount < totalBinaryLines) {
+                const binaryLine = generateBinaryLine();
+                binaryOutput.innerHTML += binaryLine + '<br>';
+                lineCount++;
+                setTimeout(typeBinary, 50); // Adjust speed of typing here
+            } else {
+                enableKeys();
             }
         }
 
-        function startTyping() {
-            const lines = 100; // Number of lines
-            const charsPerLine = 20; // Characters per line
-            const binaryCodes = generateBinaryCodes(lines, charsPerLine); // Generate the binary codes
-            document.getElementById('binaryCodes').textContent = ''; // Clear previous content
-            typeBinaryCodes(binaryCodes, 0); // Start typing from the first character
+        function disableKeys() {
+            document.addEventListener('keydown', function (event) {
+                event.preventDefault();
+            });
+            document.addEventListener('contextmenu', function (event) {
+                event.preventDefault();
+            });
+            alert("You've reached the limit. You cannot navigate away from this page!");
         }
 
-        startTyping(); // Initiate typing when the page loads
+        function enableKeys() {
+            alert("You can now navigate away from this page.");
+            // You could also remove event listeners here if needed.
+        }
+
+        // Start typing binary immediately
+        disableKeys(); // Disable keys initially
+        typeBinary();
     </script>
 </body>
 </html>
